@@ -1,0 +1,9 @@
+.container {
+  margin: 300px;
+}
+.header-register {
+  color: #f2711c;
+}
+.register_button {
+  background: #f2711c !important;
+}
