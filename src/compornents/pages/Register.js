@@ -13,28 +13,55 @@ class Register extends Component {
       email: null,
       password: null,
       passwordConfirmation: null,
+      userRef: firebase.database().ref("users"),
     };
   }
+
   nameHandler = (e) => {
     this.setState({ name: e.currentTarget.value });
-  };
-
-  passwordHandler = (e) => {
-    this.setState({ password: e.currentTarget.value });
   };
 
   emailHandler = (e) => {
     this.setState({ email: e.currentTarget.value });
   };
 
-  passwordConfirmationHandler = (e) => {};
+  passwordHandler = (e) => {
+    this.setState({ password: e.currentTarget.value });
+  };
+
+  passwordConfirmationHandler = (e) => {
+    this.setState({ passwordConfirmation: e.currentTarget.value });
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
     firebase
       .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password);
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then((createdUser) => {
+        // console.log(createdUser);
+        createdUser.user
+          .updateProfile({
+            displayName: this.state.name,
+            photoURL: `https://gravatar.com/avatar/${md5(
+              this.state.email
+            )}?d=identicon `,
+          })
+          .then(() => {
+            this.saveUser(createdUser);
+          });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  saveUser = (createdUser) => {
+    return this.state.userRef.child(createdUser.user.uid).set({
+      name: createdUser.user.displayName,
+      avatar: createdUser.user.photoURL,
+    });
   };
 
   render() {
@@ -44,7 +71,7 @@ class Register extends Component {
           <div className="column">
             <h2 className="ui teal image header-register">
               <div className="content">
-                <i class="puzzle piece icon"></i>Register for Awesome Chat
+                <i className="puzzle piece icon"></i>Register for Awesome Chat
               </div>
             </h2>
             <form className="ui large form" onSubmit={this.handleSubmit}>
@@ -62,7 +89,7 @@ class Register extends Component {
                 </div>
                 <div className="field">
                   <div className="ui left icon input">
-                    <i class="envelope outline icon"></i>
+                    <i className="envelope outline icon"></i>
                     <input
                       type="text"
                       name="email"
@@ -71,8 +98,8 @@ class Register extends Component {
                     />
                   </div>
                 </div>
-                <div class="field">
-                  <div class="ui left icon input">
+                <div className="field">
+                  <div className="ui left icon input">
                     <i className="lock icon"></i>
                     <input
                       type="password"
@@ -82,9 +109,9 @@ class Register extends Component {
                     />
                   </div>
                 </div>
-                <div class="field">
-                  <div class="ui left icon input">
-                    <i class="redo icon"></i>
+                <div className="field">
+                  <div className="ui left icon input">
+                    <i className="redo icon"></i>
                     <input
                       type="password"
                       name="password"
