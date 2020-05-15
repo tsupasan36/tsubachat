@@ -4,7 +4,6 @@ import firebase from "../../Firebase";
 import md5 from "md5";
 
 import "../styles/register.css";
-
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +13,8 @@ class Register extends Component {
       password: null,
       passwordConfirmation: null,
       userRef: firebase.database().ref("users"),
+      loading: false,
+      errors: [],
     };
   }
 
@@ -33,28 +34,59 @@ class Register extends Component {
     this.setState({ passwordConfirmation: e.currentTarget.value });
   };
 
+  formValidation = () => {
+    let errors = [];
+    let error = "";
+    if (this.state.name === null) {
+      error = { message: "Name is empty" };
+      this.setState({ errors: errors.concat(error) });
+      return false;
+    } else if (this.state.email === null) {
+      errors.push("Email is empty");
+
+      this.setState({ errors: errors });
+      return false;
+    } else if (this.state.password === null) {
+      errors.push("Password is empty");
+
+      this.setState({ errors: errors });
+      return false;
+    } else if (this.state.password !== this.state.passwordConfirmation) {
+      errors.push("Name is different");
+
+      this.setState({ errors: errors });
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
-
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((createdUser) => {
-        // console.log(createdUser);
-        createdUser.user
-          .updateProfile({
-            displayName: this.state.name,
-            photoURL: `https://gravatar.com/avatar/${md5(
-              this.state.email
-            )}?d=identicon `,
-          })
-          .then(() => {
-            this.saveUser(createdUser);
-          });
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    this.setState({ loading: true });
+    if (this.formValidation()) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((createdUser) => {
+          // console.log(createdUser);
+          createdUser.user
+            .updateProfile({
+              displayName: this.state.name,
+              photoURL: `https://gravatar.com/avatar/${md5(
+                this.state.email
+              )}?d=identicon `,
+            })
+            .then(() => {
+              this.saveUser(createdUser);
+              this.setState({ loading: false });
+            });
+        })
+        .catch((err) => {
+          console.log(err.message);
+          this.setState({ loading: false });
+        });
+    }
   };
 
   saveUser = (createdUser) => {
@@ -123,14 +155,21 @@ class Register extends Component {
                 <button
                   type="submit"
                   className="ui fluid large teal submit button register_button"
+                  disabled={this.state.loading}
                 >
-                  Sign Up
+                  {this.state.loading && (
+                    <i
+                      className="fa fa-refresh fa-spin"
+                      style={{ marginRight: "5px" }}
+                    />
+                  )}
+                  {!this.state.loading && <span>Sign Up</span>}
                 </button>
               </div>
-
-              <div className="ui error message"></div>
+              {this.state.errors.map((error, index) => {
+                return <div key={index}>{error.message}</div>;
+              })}
             </form>
-
             <div className="ui message">
               Already a User? <Link to="/login">Login</Link>
             </div>
