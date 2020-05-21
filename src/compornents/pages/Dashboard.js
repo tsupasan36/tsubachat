@@ -1,17 +1,38 @@
 import React, { Component } from "react";
 
-class Dashboard extends Component {
+import UserPanel from "../UserPanel";
+import PublicChannels from "../PublicChannels";
+import ChannelHeader from "../ChannelHeader";
+import Messages from "../Messages";
+import MessageForm from "../MessageForm";
+import MetaPanel from "../MetaPanel";
+import PrivateMessage from "../PrivateMassage";
+
+import "../styles/dashboard.css";
+
+export default class Dashboard extends Component {
   render() {
     return (
       <div>
-        <div class="ui inverted vertical menu">
-          <a class="active item">Home</a>
-          <a class="item">Messages</a>
-          <a class="item">Friends</a>
+        <div className="ui grid ">
+          <div className="three wide column column-left">
+            <UserPanel />
+            <PublicChannels />
+            <PrivateMessage />
+          </div>
+          <div
+            className="nine wide column column-center"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <ChannelHeader />
+            <Messages />
+            <MessageForm />
+          </div>
+          <div className="four wide column column-right">
+            <MetaPanel />
+          </div>
         </div>
       </div>
     );
   }
 }
-
-export default Dashboard;

@@ -98,9 +98,9 @@ class Register extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="ui container register-container">
         <div className="ui middle aligned center aligned grid">
-          <div className="column">
+          <div className=" column">
             <h2 className="ui teal image header-register">
               <div className="content">
                 <i className="puzzle piece icon"></i>Register for Awesome Chat

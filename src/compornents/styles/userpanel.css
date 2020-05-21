@@ -1,0 +1,12 @@
+.userPanel-header {
+  color: #ffffff !important;
+  margin: 10px !important;
+}
+.header-content {
+  font-size: 20px;
+  display: inline-block;
+}
+.user-profile {
+  margin: 10px;
+  color: #ffffff;
+}
