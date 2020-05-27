@@ -1,8 +1,2 @@
-export const setUser = (user) => {
-  return {
-    type: "SET_USER",
-    payload: {
-      user: user,
-    },
-  };
-};
+export * from "./userActions";
+export * from "./publicChannelActions";

@@ -1,3 +1,9 @@
 .ch-container {
   margin: 10px 0 !important;
+  display: flex;
+  justify-content: space-between;
+}
+
+.search {
+  margin: 10px 0;
 }
