@@ -1,0 +1,10 @@
+.channel-container {
+  color: darkgray;
+  margin: 15px;
+}
+
+.addChannel-button {
+  background: #2e2146;
+  border: none;
+  color: darkgray;
+}

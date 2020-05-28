@@ -56,11 +56,11 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="ui login-container">
         <div className="ui middle aligned center aligned grid">
           <div className="column">
             <h2 className="ui teal image login-header">
-              <div className="content">
+              <div className="login-content">
                 <i className="puzzle piece icon"></i>Log-in to Awesome Chat
               </div>
             </h2>
