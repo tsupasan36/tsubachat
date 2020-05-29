@@ -16,7 +16,8 @@ class MetaPanel extends Component {
 
   render() {
     const { activeIndex } = this.state;
-
+    const isPrivate = this.props.channel.isPrivate;
+    if (isPrivate) return null;
     return (
       <Segment
         className="meta-container"

@@ -14,9 +14,13 @@ class ChannelHeader extends Component {
               ? this.props.channel.currentChannel.name
               : ""}
           </h2>
-          <p>2 Users</p>
+          {this.props.channel.isPrivate ? "" : <p>2 Users</p>}
         </div>
-        <Input icon="search" placeholder="Search..." className="search" />
+        {this.props.channel.isPrivate ? (
+          ""
+        ) : (
+          <Input icon="search" placeholder="Search..." className="search" />
+        )}
       </div>
     );
   }

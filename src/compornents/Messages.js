@@ -10,6 +10,7 @@ class Messages extends Component {
     this.state = {
       messageRef: firebase.database().ref("messages"),
       messages: [],
+      privateMessageRef: firebase.database().ref("privateMessages"),
     };
   }
 
@@ -18,11 +19,11 @@ class Messages extends Component {
 
     if (oldProps.channel !== newProps.channel) {
       if (oldProps.channel.currentChannel !== null) {
-        this.state.messageRef.child(oldProps.channel.currentChannel.id).off();
+        this.getMessageRef().child(oldProps.channel.currentChannel.id).off();
       }
       const currentChannel = newProps.channel.currentChannel;
       const currentUser = newProps.user.currentUser;
-      // console.log(currentChannel);
+
       this.addListeners(currentChannel);
     }
   }
@@ -32,23 +33,28 @@ class Messages extends Component {
   };
 
   addMessageListener = (channel) => {
-    console.log(channel);
-
     let loadedMessages = [];
     this.setState({ messages: loadedMessages });
-    this.state.messageRef.child(channel.id).on("child_added", (message) => {
-      loadedMessages.push(message.val());
-      this.setState({ messages: loadedMessages });
-    });
+    this.getMessageRef()
+      .child(channel.id)
+      .on("child_added", (message) => {
+        loadedMessages.push(message.val());
+        this.setState({ messages: loadedMessages });
+      });
+  };
+
+  getMessageRef = () => {
+    const isPrivate = this.props.channel.isPrivate;
+    return isPrivate ? this.state.privateMessageRef : this.state.messageRef;
   };
 
   render() {
     return (
       <div className="ui segment" style={{ flexGrow: 1 }}>
         <Comment.Group>
-          {this.state.messages.map((message) => {
+          {this.state.messages.map((message, index) => {
             return (
-              <Comment>
+              <Comment key={index}>
                 <Comment.Avatar src={message.user.avatar} />
                 <Comment.Content>
                   <Comment.Author as="a">{message.user.name}</Comment.Author>

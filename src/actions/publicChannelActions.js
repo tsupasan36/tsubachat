@@ -15,3 +15,12 @@ export const changeChannel = (channel) => {
     },
   };
 };
+
+export const setPrivateChannel = (isPrivate) => {
+  return {
+    type: "SET_PRIVATE_CHANNEL",
+    payload: {
+      isPrivate: isPrivate,
+    },
+  };
+};
