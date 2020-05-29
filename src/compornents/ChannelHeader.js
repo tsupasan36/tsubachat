@@ -5,7 +5,6 @@ import { Input } from "semantic-ui-react";
 
 class ChannelHeader extends Component {
   render() {
-    console.log(this.props.channel.currentChannel);
     return (
       <div className="ui segment ch-container ">
         <div>

@@ -13,7 +13,6 @@ import { connect } from "react-redux";
 
 class Dashboard extends Component {
   render() {
-    console.log(this.props.user.user.photoURL);
     return (
       <div>
         <div className="ui grid ">
