@@ -9,15 +9,17 @@ import MetaPanel from "../MetaPanel";
 import PrivateMessage from "../PrivateMassage";
 
 import "../styles/dashboard.css";
+import { connect } from "react-redux";
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   render() {
+    console.log(this.props.user.user.photoURL);
     return (
       <div>
         <div className="ui grid ">
           <div className="three wide column column-left">
-            <UserPanel />
-            <PublicChannels />
+            <UserPanel currentUser={this.props.user.user} />
+            <PublicChannels currentUser={this.props.user.user} />
             <PrivateMessage />
           </div>
           <div
@@ -36,3 +38,8 @@ export default class Dashboard extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps, null)(Dashboard);

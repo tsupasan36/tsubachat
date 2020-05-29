@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Image } from "semantic-ui-react";
+
 import "./styles/userpanel.css";
 
 import DropdownExampleDropdown from "./functions/dropdown";
@@ -12,11 +14,9 @@ class Userpanel extends Component {
           <div className="header-content">AwesomeChat</div>
         </h2>
         <div className="user-profile">
-          <img
-            src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-            className="ui avatar image"
-          />
-          <span>Username</span>
+          <Image src={this.props.currentUser.photoURL} avatar />
+
+          <span>{this.props.currentUser.displayName}</span>
           <DropdownExampleDropdown />
         </div>
       </div>

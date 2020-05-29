@@ -1,12 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./compornents/App";
+import RouterWithAuth from "./compornents/App";
 import { BrowserRouter as Router } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducers from "./reducers";
+
+const store = createStore(rootReducers);
+
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <RouterWithAuth />
+    </Router>
+  </Provider>,
   document.querySelector("#root")
 );
