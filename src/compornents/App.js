@@ -34,7 +34,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.isLoading);
     return this.state.isLoading === true ? (
       <Dimmer active>
         <Loader size="huge" />

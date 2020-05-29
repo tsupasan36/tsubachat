@@ -38,7 +38,7 @@ class MetaPanel extends Component {
             index={0}
             onClick={this.handleClick}
           >
-            <Icon name="dropdown " />
+            <Icon name="dropdown" />
             <Icon name="info" />
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>

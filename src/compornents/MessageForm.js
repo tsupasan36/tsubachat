@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { Input, Button } from "semantic-ui-react";
+import firebase from "../Firebase";
+import { connect } from "react-redux";
 
 class MessageForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       message: "",
-      image: "",
+      messageRef: firebase.database().ref("messages"),
     };
   }
 
@@ -15,7 +17,30 @@ class MessageForm extends Component {
   };
 
   handleSubmitMessage = (e) => {
-    this.setState({ message: "" });
+    this.state.messageRef
+      .child(this.props.channel.currentChannel.id)
+      .push()
+      .set(this.createMessage())
+      .then(() => {
+        console.log("success");
+        this.setState({ message: "" });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  createMessage = () => {
+    const newMessage = {
+      content: this.state.message,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      user: {
+        id: this.props.user.user.uid,
+        name: this.props.user.user.displayName,
+        avatar: this.props.user.user.photoURL,
+      },
+    };
+    return newMessage;
   };
 
   handleSubmitImage = (e) => {
@@ -51,4 +76,9 @@ class MessageForm extends Component {
   }
 }
 
-export default MessageForm;
+const mapStateToProps = (state) => ({
+  channel: state.channel,
+  user: state.user,
+});
+
+export default connect(mapStateToProps, null)(MessageForm);

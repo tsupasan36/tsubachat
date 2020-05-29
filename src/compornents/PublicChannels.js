@@ -113,9 +113,10 @@ class PublicChannels extends Component {
           </Modal.Actions>
         </Modal>
         <Menu text vertical>
-          {this.state.channels.map((channel) => {
+          {this.state.channels.map((channel, index) => {
             return (
               <Menu.Item
+                key={index}
                 style={{ color: "darkgray" }}
                 onClick={() => {
                   this.changeChannel(channel);
