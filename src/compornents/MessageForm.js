@@ -9,6 +9,7 @@ class MessageForm extends Component {
     this.state = {
       message: "",
       messageRef: firebase.database().ref("messages"),
+      privateMessageRef: firebase.database().ref("privateMessages"),
     };
   }
 
@@ -17,7 +18,7 @@ class MessageForm extends Component {
   };
 
   handleSubmitMessage = (e) => {
-    this.state.messageRef
+    this.getMessageRef()
       .child(this.props.channel.currentChannel.id)
       .push()
       .set(this.createMessage())
@@ -28,6 +29,12 @@ class MessageForm extends Component {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  getMessageRef = () => {
+    const isPrivate = this.props.channel.isPrivate;
+
+    return isPrivate ? this.state.privateMessageRef : this.state.messageRef;
   };
 
   createMessage = () => {
@@ -56,6 +63,7 @@ class MessageForm extends Component {
           labelPosition="left"
           fluid
           onChange={this.handleMassage}
+          value={this.state.message}
         />
         <Button.Group fluid style={{ marginTop: "10px" }}>
           <Button

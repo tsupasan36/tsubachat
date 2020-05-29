@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Header, Icon, Modal, Input, Menu } from "semantic-ui-react";
 import firebase from "../Firebase";
 import { connect } from "react-redux";
-import { changeChannel } from "../actions";
+import { changeChannel, setPrivateChannel } from "../actions";
 
 import "./styles/PublicChannel.css";
 
@@ -59,6 +59,7 @@ class PublicChannels extends Component {
 
   changeChannel = (channel) => {
     this.props.dispatch(changeChannel(channel));
+    this.props.dispatch(setPrivateChannel(false));
   };
 
   handleCancel = () => {};
